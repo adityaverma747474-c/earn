@@ -4,6 +4,7 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { nitro } from "nitro/vite";
+import path from "path";
 
 export default defineConfig({
   plugins: [
@@ -11,10 +12,16 @@ export default defineConfig({
       server: { entry: "server" }
     }),
     nitro({
-      preset: "vercel"
+      preset: "vercel",
+      rolldownConfig: {
+        output: { inlineDynamicImports: true }
+      }
     }),
     react(),
     tailwindcss(),
     tsconfigPaths(),
   ],
+  define: {
+    __dirname: JSON.stringify(path.resolve())
+  }
 });
