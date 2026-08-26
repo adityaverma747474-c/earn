@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedEarnRouteImport } from './routes/_authenticated/earn'
 import { Route as AuthenticatedWalletRouteImport } from './routes/_authenticated/wallet'
+import { Route as ApiDebugRouteImport } from './routes/api/debug'
 import { Route as ApiPublicPostbackTimewallRouteImport } from './routes/api/public/postback/timewall'
 
 const IndexRoute = IndexRouteImport.update({
@@ -46,6 +47,11 @@ const AuthenticatedWalletRoute = AuthenticatedWalletRouteImport.update({
   path: '/wallet',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiDebugRoute = ApiDebugRouteImport.update({
+  id: '/api/debug',
+  path: '/api/debug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPostbackTimewallRoute =
   ApiPublicPostbackTimewallRouteImport.update({
     id: '/api/public/postback/timewall',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/earn': typeof AuthenticatedEarnRoute
   '/wallet': typeof AuthenticatedWalletRoute
+  '/api/debug': typeof ApiDebugRoute
   '/api/public/postback/timewall': typeof ApiPublicPostbackTimewallRoute
 }
 export interface FileRoutesByTo {
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/earn': typeof AuthenticatedEarnRoute
   '/wallet': typeof AuthenticatedWalletRoute
+  '/api/debug': typeof ApiDebugRoute
   '/api/public/postback/timewall': typeof ApiPublicPostbackTimewallRoute
 }
 export interface FileRoutesById {
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/earn': typeof AuthenticatedEarnRoute
   '/_authenticated/wallet': typeof AuthenticatedWalletRoute
+  '/api/debug': typeof ApiDebugRoute
   '/api/public/postback/timewall': typeof ApiPublicPostbackTimewallRoute
 }
 export interface FileRouteTypes {
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/earn'
     | '/wallet'
+    | '/api/debug'
     | '/api/public/postback/timewall'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/earn'
     | '/wallet'
+    | '/api/debug'
     | '/api/public/postback/timewall'
   id:
     | '__root__'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/earn'
     | '/_authenticated/wallet'
+    | '/api/debug'
     | '/api/public/postback/timewall'
   fileRoutesById: FileRoutesById
 }
@@ -111,6 +123,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiDebugRoute: typeof ApiDebugRoute
   ApiPublicPostbackTimewallRoute: typeof ApiPublicPostbackTimewallRoute
 }
 
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWalletRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/debug': {
+      id: '/api/debug'
+      path: '/api/debug'
+      fullPath: '/api/debug'
+      preLoaderRoute: typeof ApiDebugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/postback/timewall': {
       id: '/api/public/postback/timewall'
       path: '/api/public/postback/timewall'
@@ -187,6 +207,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiDebugRoute: ApiDebugRoute,
   ApiPublicPostbackTimewallRoute: ApiPublicPostbackTimewallRoute,
 }
 export const routeTree = rootRouteImport
